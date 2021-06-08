@@ -1,0 +1,15 @@
+requests==2.25.1
+joblib==1.0.1
+fire==0.4.0
+tqdm==4.49.0
+
+# autonlp and datasets require incompatible tqdm versions. 
+# So manually install the autonlp dependencies here and install autonlp without dependencies after.
+
+# BEGIN AutoNLP dependencies.
+loguru==0.5.3
+prettytable==2.0.0
+huggingface_hub<0.1.0
+# END autonlp dependencies.
+
+datasets==1.8.0
