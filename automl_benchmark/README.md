@@ -1,6 +1,6 @@
 # Code samples for AutoML blogpost
 
-TODO: insert link to blogpost.
+https://medium.com/nyckelai/automl-benchmark-nyckel-vs-google-vs-huggingface-1cc0649ef27d
 
 ## Setup
 
