@@ -74,4 +74,4 @@ def requester_factory():
 
     assert os.getenv("NYCKEL_CLIENT_SECRET"), "NYCKEL_CLIENT_SECRET env variable not set; can't setup connection."
 
-    return Requester(os.getenv("NYCKEL_CLIENT_ID"), os.getenv("NYCKEL_CLIENT_SECRET"), "https://www.nyckel.com/", "0.9")
+    return Requester(os.getenv("NYCKEL_CLIENT_ID"), os.getenv("NYCKEL_CLIENT_SECRET"), "https://www.nyckel.com/", "1")
