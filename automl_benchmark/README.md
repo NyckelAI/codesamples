@@ -4,11 +4,11 @@ TODO: insert link to blogpost.
 
 ## Setup
 
-NOTE: This code is only tested on `python3.9`
+NOTE: This code is only tested on `python3.7`
 
 ### Create python environment
 
-* Install `python3.9`.
+* Install `python3.7`.
 * Clone this repository.
 * Go to `automl_benchmark` folder.
 * Create a python virtual environment. For example say:
@@ -18,8 +18,8 @@ python3.9 -m venv automl_benchmark_env
 source automl_benchmark_env/bin/activate
 ```
 
-* Install requirements like so `pip install -r requirements.txt`.
-* Install autonlp like so: `pip install autonlp==0.2.6 --no-dependencies`.
+* Install requirements like so `pip install -r requirements.txt`
+* Install autonlp like so: `pip install autonlp==0.2.6 --no-dependencies`
 
 ### Prepare data files
 

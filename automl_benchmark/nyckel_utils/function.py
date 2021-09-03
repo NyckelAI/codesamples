@@ -38,7 +38,7 @@ class FunctionBuilder:
         self.server_id_to_local_id = dict()
         self.annotated_sample_ids = set()
         self.label_name_to_id = dict()
-        print(f"Initialized {self.requester.host}console/functions/{self.function_id}/browse")
+        print(f"Initialized {self.requester.host}console/functions/{self.function_id}/train")
 
     def add_label(self, name: str, description: str = ""):
         label_id = self.requester(
