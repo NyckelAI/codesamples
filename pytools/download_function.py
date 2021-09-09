@@ -22,7 +22,7 @@ def download_function(function_id: str):
 
     if function_dict["inputModality"] == "Image":
         print(
-            "Note: Images may get compressed when uploaded to Nyckel. Downloaded images may therefore be smaller than the originals."
+            "Warning: Images may get compressed when uploaded to Nyckel. Downloaded images may therefore be smaller than the originals."
         )
 
     samples: List[Sample] = []
