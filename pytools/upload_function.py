@@ -56,9 +56,6 @@ class FunctionBuilder:
             with open(sample.sample_file) as f:
                 inline_data = f.read()
         elif self.input_modality == "Image":
-            # img = Image.open(os.path.join(function_folder, sample.sample_file))
-            # buffered = BytesIO()
-            # img.save(buffered, format="JPEG")
             with open(sample.sample_file, "rb") as f:
                 encoded_string = base64.b64encode(f.read()).decode("utf-8")
             inline_data = "data:image/png;base64," + encoded_string
