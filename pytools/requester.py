@@ -1,8 +1,8 @@
 import os
 import time
+import warnings
 
 import requests
-import warnings
 
 
 class Requester:

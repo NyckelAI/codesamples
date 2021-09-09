@@ -16,6 +16,7 @@ class Sample:
 
 @dataclass
 class Function:
-    name: str
+    name: Optional[str]
     modality: str
     samples: List[Sample]
+    label_names: List[str]

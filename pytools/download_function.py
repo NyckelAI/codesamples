@@ -62,7 +62,12 @@ def download_function(function_id: str):
             )
         )
 
-    function = Function(name=function_dict["name"], modality=function_dict["inputModality"], samples=samples)
+    function = Function(
+        name=function_dict["name"],
+        modality=function_dict["inputModality"],
+        samples=samples,
+        label_names=[entry["name"] for entry in label_dict_list],
+    )
 
     with open(f"{function_id}/function.json", "w") as f:
         json.dump(asdict(function), f, indent=2)
