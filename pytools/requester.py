@@ -78,11 +78,7 @@ def requester_factory():
 
     assert os.getenv("NYCKEL_CLIENT_SECRET"), "NYCKEL_CLIENT_SECRET env variable not set; can't setup connection."
 
-    print(
-        "Note: You are using API version 1.0 which is not yet stable. This code-sample may stop working without warning."
-    )
-
-    return Requester(os.getenv("NYCKEL_CLIENT_ID"), os.getenv("NYCKEL_CLIENT_SECRET"), "https://www.nyckel.com/", "1")
+    return Requester(os.getenv("NYCKEL_CLIENT_ID"), os.getenv("NYCKEL_CLIENT_SECRET"), "https://www.nyckel.com/", "0.9")
 
 
 def repeated_get(requester: Requester, endpoint: str):
