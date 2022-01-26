@@ -58,22 +58,28 @@ class NyckelFunction:
         return cls(name, modality, description, function_id, project_id, {}, False)
 
     def __call__(self, input_data: InputData):
-        while not self.has_model:
-            try:
-                resp = requester_v1.post(
-                    f"functions/{self.function_id}/invoke", body={"data": self._input_data_to_string(input_data)}
-                )
-                self.has_model = True
-            except RuntimeError as e:
-                if "No model available to invoke function" in str(e):
-                    print("Waiting for model to train ...")
-                    time.sleep(1)
-                else:
-                    raise RuntimeError(f"Call failed with {e}")
-        print(resp.json())
-        return resp
+        if not self.has_model:
+            while not self.has_model:
+                try:
+                    self._timed_invoke(input_data)
+                    self.has_model = True
+                except RuntimeError as e:
+                    if "No model available to invoke function" in str(e):
+                        print("Waiting for model training to finish ...")
+                        time.sleep(1)
+        else:
+            self._timed_invoke(input_data)
+
+    def _timed_invoke(self, input_data: InputData):
+        t0 = time.time()
+        resp = requester_v1.post(
+            f"functions/{self.function_id}/invoke", body={"data": self._input_data_to_string(input_data)}
+        ).json()
+        print(f"Response: {resp}. Latency {(time.time()-t0):.2f}s.")
 
     def add_labels(self, names: List[str]):
+        endpoint = f"functions/{self.function_id}/labels"
+        print(f"POSTing {len(names)} labels to [{requester_v1._get_full_url(endpoint)}]")
         for name in names:
             label_id = requester_v1.post(
                 f"functions/{self.function_id}/labels", body={"name": name, "description": ""}
@@ -81,6 +87,8 @@ class NyckelFunction:
             self.label_name_to_id[name] = label_id
 
     def add_samples(self, samples: List[Sample]):
+        endpoint = f"functions/{self.function_id}/samples"
+        print(f"POSTing {len(samples)} samples to [{requester_v1._get_full_url(endpoint)}]")
         return Parallel(n_jobs=100, prefer="threads")(
             delayed(self._post_annotated_sample)(sample) for sample in tqdm(samples)
         )
@@ -90,7 +98,6 @@ class NyckelFunction:
         image_list = []
         for image_suffix in image_suffix_list:
             image_list.extend(glob(os.path.join(f"{folder}/*.{image_suffix}")))
-
         self.add_samples([(entry, label_name) for entry in image_list])
 
     def _add_labels_for_all_samples(self, samples):
