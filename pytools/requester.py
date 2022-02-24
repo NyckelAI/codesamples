@@ -2,6 +2,7 @@ import os
 import time
 
 import requests
+from typing import Dict
 
 assert os.getenv("NYCKEL_CLIENT_ID"), "NYCKEL_CLIENT_ID env variable not set; can't setup connection."
 assert os.getenv("NYCKEL_CLIENT_SECRET"), "NYCKEL_CLIENT_SECRET env variable not set; can't setup connection."
@@ -12,10 +13,10 @@ class Requester:
 
     def __init__(
         self,
-        client_id: str,
-        client_secret: str,
-        host: str,
-        api_version: str,
+        client_id: str = os.getenv("NYCKEL_CLIENT_ID"),
+        client_secret: str = os.getenv("NYCKEL_CLIENT_SECRET"),
+        host: str = "https://www.nyckel.com/",
+        api_version: str = "v1.0",
         nbr_max_attempts=5,
         attempt_wait_sec=5,
     ):
@@ -28,8 +29,25 @@ class Requester:
         self.nbr_max_attempts = nbr_max_attempts
         self.attempt_wait_sec = attempt_wait_sec
 
-    def __call__(self, request, endpoint: str, **kwargs):
+    def get(self, endpoint: str):
+        return self._request_with_retries(requests.get, endpoint)
 
+    def post(self, endpoint: str, body: Dict):
+        return self._request_with_retries(requests.post, endpoint, json=body)
+
+    def put(self, endpoint: str, body: Dict):
+        return self._request_with_retries(requests.put, endpoint, json=body)
+
+    def repeated_get(self, endpoint: str):
+        resp = self.get(endpoint)
+        resource_list = resp.json()
+        while "next" in resp.links:
+            endpoint = resp.links["next"]["url"]
+            resp = self.get(endpoint)
+            resource_list.extend(resp.json())
+        return resource_list
+
+    def _request_with_retries(self, request, endpoint, **kwargs):
         url = self._get_full_url(endpoint)
         attempt_counter = 0
         resp = None
@@ -37,7 +55,7 @@ class Requester:
             try:
                 resp = self._request_with_renewal(request, url, **kwargs)
             except requests.exceptions.RequestException as err:
-                print(f"Can not access {url} with {request.__name__.upper()} {kwargs}. Err: {err}.")
+                print(f"RequestException at {url}: {err}.")
                 time.sleep(self.attempt_wait_sec)
             attempt_counter += 1
         return resp
@@ -70,24 +88,3 @@ class Requester:
 
     def _get_full_url(self, endpoint):
         return self.host.rstrip("/") + "/v" + self.api_version.lstrip("v").rstrip("/") + "/" + endpoint.lstrip("/")
-
-
-def requester_factory():
-
-    assert os.getenv("NYCKEL_CLIENT_ID"), "NYCKEL_CLIENT_ID env variable not set; can't setup connection."
-
-    assert os.getenv("NYCKEL_CLIENT_SECRET"), "NYCKEL_CLIENT_SECRET env variable not set; can't setup connection."
-
-    return Requester(os.getenv("NYCKEL_CLIENT_ID"), os.getenv("NYCKEL_CLIENT_SECRET"), "https://www.nyckel.com/", "0.9")
-
-
-def repeated_get(requester: Requester, endpoint: str):
-
-    resp = requester(requests.get, endpoint)
-    resource_list = resp.json()
-    while "next" in resp.links:
-        endpoint = resp.links["next"]["url"]
-        resp = requester(requests.get, endpoint)
-        resource_list.extend(resp.json())
-
-    return resource_list
