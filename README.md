@@ -3,5 +3,5 @@
 Welcome to the Nyckel codesamples repository!
 
 * Site: www.nyckel.com
-* Blog: https://medium.com/nyckelai
+* Blog: https://www.nyckel.com/blog
 * Code: https://github.com/NyckelAI
