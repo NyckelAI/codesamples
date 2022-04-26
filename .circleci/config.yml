@@ -1,0 +1,21 @@
+version: 2.1
+
+jobs:
+  deploy-nft-finder:
+    resource_class: small
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - run:
+          command: |
+            set -ex
+            cd demos/NFTFinder
+            aws s3 cp . s3://nyckel-nft-finder/nft-finder/ --recursive
+
+workflows:
+  main:
+    when:
+      equal: [master, <<pipeline.git.branch>>]
+    jobs:
+      - deploy-nft-finder:
+          context: Playground
