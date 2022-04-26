@@ -15,7 +15,7 @@ jobs:
 workflows:
   main:
     when:
-      equal: [master, <<pipeline.git.branch>>]
+      equal: [main, <<pipeline.git.branch>>]
     jobs:
       - deploy-nft-finder:
           context: Playground
