@@ -1,4 +1,6 @@
 const pageUrl = url_getbase();
+var source; 	//source can be either: image-click (which also is used for url parameters), image-upload, text
+
 
 window.addEventListener('DOMContentLoaded', (e) => {
 
@@ -13,14 +15,21 @@ window.addEventListener('DOMContentLoaded', (e) => {
 		search_go(document.getElementById('search-text').value, 'text', true);
 	});
 
+	document.getElementById('page-logo').addEventListener('click',function(e){
+		e.preventDefault();
+		url_clear();
+		render_initial();
+	});
+
 	image_drop(document.querySelector("#search-text"));
 	image_drop(document.querySelector(".image-droppable"));
+	
 
 	//Url Parameters:
 	var searchQuery = url_get_query();
 	if (searchQuery) {
 		if (searchQuery.includes('sample_')) {
-			search_go(searchQuery, 'image');
+			search_go(searchQuery, 'image-click');
 		}
 		else {
 			search_go(searchQuery, 'text');
@@ -52,9 +61,9 @@ function render_initial() {
 
 	data[0] = { image: "images/nft/art-0.jpg", sampleId: "sample_5nlvrs6eaagcd84z", link: "https://rarible.com/token/0x8c0ac3ce98dced91810f7b3c5b50791c8874c551:635?tab=details" }
 	data[1] = { image: "images/nft/art-1.jpg", sampleId: "sample_352wg7cwl8hfggsx", link: "https://rarible.com/token/0x3b3ee1931dc30c1957379fac9aba94d1c48a5405:99989" }
-	data[2] = { image: "images/nft/art-2.jpg", sampleId: "sample_swlodjy2bck4vn2u", link: "https://rarible.com/token/0xcb1b2a805273115feb4e3bc13c3111d70afb2270:117" }
+	data[2] = { image: "images/nft/art-2.jpg", sampleId: "sample_54lnsamn6yjqyfdu", link: "https://rarible.com/token/0xcb1b2a805273115feb4e3bc13c3111d70afb2270:117" }
 	data[3] = { image: "images/nft/art-3.jpg", sampleId: "sample_ku53jhll85uc919k", link: "https://rarible.com/token/0x496299d8497a02b01f5bc355298b0a831f06c522:832" }
-	data[4] = { image: "images/nft/art-4.jpg", sampleId: "sample_eoaiv0g00xsf5yld", link: "https://rarible.com/token/0x3b3ee1931dc30c1957379fac9aba94d1c48a5405:120089" }
+	data[4] = { image: "images/nft/art-4.jpg", sampleId: "sample_wnttuhpykwnb04op", link: "https://rarible.com/token/0x3b3ee1931dc30c1957379fac9aba94d1c48a5405:120089" }
 	data[5] = { image: "images/nft/art-5.jpg", sampleId: "sample_3dzayyl6ohawld7d", link: "https://rarible.com/token/0x8c0ac3ce98dced91810f7b3c5b50791c8874c551:54?tab=details" }
 	data[6] = { image: "images/nft/art-6.jpg", sampleId: "sample_znkfa6bs1j84vrw0", link: "https://rarible.com/token/0x3295d41951ea8a2c88c8c0dc8156b27b3aa08bca:99" }
 	data[7] = { image: "images/nft/art-7.jpg", sampleId: "sample_zjz2oqdbrjqf8ke8", link: "https://rarible.com/token/0x60f80121c31a0d46b5279700f9df786054aa5ee5:903406" }
@@ -69,8 +78,8 @@ function render_initial() {
 function search_go(searchString, source = null, updateUrl = false, sampleId = null) {
 
 	clear_tiles();
-
-	if (source == "image") {
+	
+	if (source == "image-click" || source == "image-upload") {
 		url_update(sampleId, source, updateUrl);
 	}
 	else {
@@ -101,14 +110,18 @@ function search_go(searchString, source = null, updateUrl = false, sampleId = nu
 		.then(response => {
 
 			var imageData = response['searchSamples'];
-
-			render_current_image_search_preview(imageData[0]['data'], source);
-
-			//Remove the first result now that we've used it for the preview:
-			if (source == "image") {
-				imageData.shift();
+			
+			if (source == "image-click") {
+				render_current_image_search_preview(imageData[0]['data'], source);
+				imageData.shift();					//Remove the first result now that we've used it for the preview:
 			}
-
+			else if (source == "image-upload"){
+				render_current_image_search_preview(searchString, source);
+			}
+			if (source == "text"){
+				document.querySelector("#current-search-preview").style.display = 'none';
+			}
+						
 			for (i = 0; i < 9; i++) {
 				render_tile(i, {
 					image: imageData[i]['data'],
@@ -132,19 +145,24 @@ function clear_tiles() {
 
 function render_tile(id, imageData) {
 	document.getElementById('tile-image-' + String(id)).style.backgroundImage = "url(" + imageData['image'] + ")";
-	document.getElementById('tile-image-' + String(i)).dataset.id = imageData['sampleId'];
+	document.getElementById('tile-image-' + String(id)).dataset.id = imageData['sampleId'];
 	document.getElementById('tile-link-' + String(id)).href = imageData['link'];
 }
 
 function image_click(e) {
 	e.preventDefault();
 
-	var img = e.srcElement;
-	style = img.currentStyle || window.getComputedStyle(img, false),
-		selectedImage = style.backgroundImage.slice(4, -1).replace(/"/g, "");
+	//var img = e.srcElement;
+	//style = img.currentStyle || window.getComputedStyle(img, false),
+	//	selectedImage = style.backgroundImage.slice(4, -1).replace(/"/g, "");
 
 	var sampleId = e.srcElement.getAttribute("data-id");
-	search_go(selectedImage, 'image', true, sampleId);
+	//if (sampleId){
+		search_go(sampleId, 'image-click', true, sampleId);
+	//}
+	//else{
+	//	search_go(selectedImage, 'image-click', true, sampleId);
+	//}
 }
 
 function title_update(searchString, source) {
@@ -168,6 +186,10 @@ function url_update(searchString, source, updateUrl) {
 	}
 }
 
+function url_clear(){
+	window.history.pushState(Date().toLocaleString(), "NFT Search", pageUrl);
+}
+
 function url_get_query() {
 	const urlParams = new URLSearchParams(window.location.search);
 	return urlParams.get('search');
@@ -179,7 +201,7 @@ function image_upload_click() {
 
 	reader.addEventListener("load", function () {
 		if (is_file_image(file) == true) {
-			search_go(reader.result, 'image');
+			search_go(reader.result, 'image-upload');
 		}
 		else {
 			error_show();
@@ -219,21 +241,16 @@ function image_drop(image_drop_area) {
 		const reader = new FileReader();
 		reader.addEventListener('load', (e) => {
 			uploaded_image = e.target.result;
-			search_go(uploaded_image, 'image');
+			search_go(uploaded_image, 'image-upload');
 		});
 		reader.readAsDataURL(file);
 	}
 }
 
-function render_current_image_search_preview(searchString, source) {
-	if (source == "image") {
-		document.querySelector('#search-text').value = "";
-		document.getElementById("ItemPreview").src = searchString;
-		document.querySelector("#current-search-preview").style.display = 'block';
-	}
-	else {
-		document.querySelector("#current-search-preview").style.display = 'none';
-	}
+function render_current_image_search_preview(image, source) {
+	document.querySelector('#search-text').value = "";
+	document.getElementById("ItemPreview").src = image;
+	document.querySelector("#current-search-preview").style.display = 'block';
 }
 
 function error_show() {
