@@ -17,6 +17,8 @@ window.addEventListener('DOMContentLoaded', (e) => {
 
 	document.getElementById('page-logo').addEventListener('click',function(e){
 		e.preventDefault();
+		image_preview_hide();
+		search_text_clear();
 		url_clear();
 		render_initial();
 	});
@@ -78,6 +80,9 @@ function render_initial() {
 function search_go(searchString, source = null, updateUrl = false, sampleId = null) {
 
 	clear_tiles();
+	tooltip_hide();
+	title_update(searchString, source);
+	error_hide();
 	
 	if (source == "image-click") {
 		url_update(sampleId, source, updateUrl);
@@ -88,9 +93,6 @@ function search_go(searchString, source = null, updateUrl = false, sampleId = nu
 	else {
 		url_update(searchString, source, updateUrl);
 	}
-
-	title_update(searchString, source);
-	error_hide();
 
 	if (window.innerWidth < 700) {
 		document.getElementById('results-pane').scrollIntoView();
@@ -115,14 +117,14 @@ function search_go(searchString, source = null, updateUrl = false, sampleId = nu
 			var imageData = response['searchSamples'];
 			
 			if (source == "image-click") {
-				render_current_image_search_preview(imageData[0]['data'], source);
+				image_preview_show(imageData[0]['data'], source);
 				imageData.shift();					//Remove the first result now that we've used it for the preview:
 			}
 			else if (source == "image-upload"){
-				render_current_image_search_preview(searchString, source);
+				image_preview_show(searchString, source);
 			}
 			if (source == "text"){
-				document.querySelector("#current-search-preview").style.display = 'none';
+				image_preview_hide();
 			}
 						
 			for (i = 0; i < 9; i++) {
@@ -141,7 +143,7 @@ function search_go(searchString, source = null, updateUrl = false, sampleId = nu
 }
 
 function clear_tiles() {
-	for (i = 0; i < 9; i++) {
+	for (let i = 0; i < 9; i++) {
 		document.getElementById('tile-' + String(i)).style.backgroundImage = "none";
 	}
 }
@@ -194,6 +196,7 @@ function url_get_query() {
 }
 
 function image_upload_click() {
+
 	const file = document.querySelector('input[type=file]').files[0];
 	const reader = new FileReader();
 
@@ -207,6 +210,7 @@ function image_upload_click() {
 	}, false);
 
 	if (file) {
+		
 		reader.readAsDataURL(file);
 	}
 
@@ -245,10 +249,18 @@ function image_drop(image_drop_area) {
 	}
 }
 
-function render_current_image_search_preview(image, source) {
-	document.querySelector('#search-text').value = "";
+function image_preview_show(image, source) {
+	search_text_clear();
 	document.getElementById("ItemPreview").src = image;
 	document.querySelector("#current-search-preview").style.display = 'block';
+}
+
+function image_preview_hide() {
+	document.querySelector("#current-search-preview").style.display = 'none';
+}
+
+function search_text_clear(){
+	document.querySelector('#search-text').value = "";
 }
 
 function error_show() {
@@ -277,7 +289,7 @@ function tooltip_show(e) {
 	toolTip.style.display = 'block';
 }
 
-function tooltip_hide(e) {
+function tooltip_hide() {
 	var toolTip = document.querySelector('.tooltip-popup');
 	toolTip.style.display = 'none';
 }
