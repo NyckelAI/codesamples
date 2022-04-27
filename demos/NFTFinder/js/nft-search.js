@@ -164,6 +164,9 @@ function title_update(searchString, source) {
 	if (source == "text") {
 		document.title = "NFT Search - " + searchString;
 	}
+	else{
+		document.title = "NFT Search";
+	}
 }
 
 function url_getbase() {
