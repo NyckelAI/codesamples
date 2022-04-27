@@ -150,7 +150,7 @@ main {
 
 @media (max-width: 900px) {
     .main-panel-inner {
-        padding-bottom: 30px;
+        padding-bottom: 60px;
     }
 }
 
@@ -320,6 +320,7 @@ main {
     padding: 8px 14px;
     color: #fff;
     display: none;
+	z-index: 10;
 }
 
 .form-box .current-search-preview-divet {
