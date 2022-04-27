@@ -79,8 +79,11 @@ function search_go(searchString, source = null, updateUrl = false, sampleId = nu
 
 	clear_tiles();
 	
-	if (source == "image-click" || source == "image-upload") {
+	if (source == "image-click") {
 		url_update(sampleId, source, updateUrl);
+	}
+	else if(source == "image-upload"){
+		url_clear();
 	}
 	else {
 		url_update(searchString, source, updateUrl);
@@ -152,17 +155,9 @@ function render_tile(id, imageData) {
 function image_click(e) {
 	e.preventDefault();
 
-	//var img = e.srcElement;
-	//style = img.currentStyle || window.getComputedStyle(img, false),
-	//	selectedImage = style.backgroundImage.slice(4, -1).replace(/"/g, "");
-
 	var sampleId = e.srcElement.getAttribute("data-id");
-	//if (sampleId){
-		search_go(sampleId, 'image-click', true, sampleId);
-	//}
-	//else{
-	//	search_go(selectedImage, 'image-click', true, sampleId);
-	//}
+	search_go(sampleId, 'image-click', true, sampleId);
+	
 }
 
 function title_update(searchString, source) {
