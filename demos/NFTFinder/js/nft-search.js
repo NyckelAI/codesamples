@@ -178,10 +178,10 @@ function url_getbase() {
 function url_update(searchString, source, updateUrl) {
 	if (updateUrl) {
 		if (searchString) {
-			window.history.pushState(Date().toLocaleString(), "NFT Search - " + searchString, pageUrl + "?search=" + searchString);
+			window.history.pushState(Date().toLocaleString(), "NFT Finder - " + searchString, pageUrl + "?search=" + searchString);
 		}
 		else {
-			window.history.pushState(Date().toLocaleString(), "NFT Search", pageUrl);
+			window.history.pushState(Date().toLocaleString(), "NFT Finder", pageUrl);
 		}
 	}
 }
