@@ -164,10 +164,10 @@ function image_click(e) {
 
 function title_update(searchString, source) {
 	if (source == "text") {
-		document.title = "NFT Search - " + searchString;
+		document.title = "NFT Finder - " + searchString;
 	}
 	else{
-		document.title = "NFT Search";
+		document.title = "NFT Finder";
 	}
 }
 
@@ -187,7 +187,7 @@ function url_update(searchString, source, updateUrl) {
 }
 
 function url_clear(){
-	window.history.pushState(Date().toLocaleString(), "NFT Search", pageUrl);
+	window.history.pushState(Date().toLocaleString(), "NFT Finder", pageUrl);
 }
 
 function url_get_query() {
