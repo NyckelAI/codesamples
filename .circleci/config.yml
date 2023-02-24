@@ -28,6 +28,19 @@ jobs:
             cd demos/nuScenesSearcher
             aws s3 cp . s3://nyckel-nuscenes-searcher/nuscenes-searcher/ --recursive
 
+  deploy-unsplash-finder:
+    resource_class: small
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - aws-cli/install
+      - run:
+          command: |
+            set -ex
+            cd demos/UnsplashFinder
+            aws s3 cp . s3://nyckel-unsplash-finder/unsplash-finder/ --recursive
+
+
 workflows:
   main:
     when:
@@ -36,4 +49,6 @@ workflows:
       - deploy-nft-finder:
           context: Playground
       - deploy-nuscenes-searcher:
+          context: Playground
+      - deploy-unsplash-finder:
           context: Playground
