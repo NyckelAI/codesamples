@@ -37,7 +37,7 @@ jobs:
       - run:
           command: |
             set -ex
-            cd demos/unSplashFinder
+            cd demos/UnsplashFinder
             aws s3 cp . s3://nyckel-unsplash-finder/unsplash-finder/ --recursive
 
 
