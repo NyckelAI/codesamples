@@ -61,10 +61,10 @@ function render_initial() {
 
 	var data = [];
 
-	data[0] = { image: "images/nft/art-0.jpg", sampleId: "sample_162lhlc036uv8h3t", link: "https://www.nuscenes.org/" }
-	data[1] = { image: "images/nft/art-1.jpg", sampleId: "sample_162lhlc036uv8h3t", link: "https://www.nuscenes.org/" }
-	data[2] = { image: "images/nft/art-2.jpg", sampleId: "sample_162lhlc036uv8h3t", link: "https://www.nuscenes.org/" }
-	data[3] = { image: "images/nft/art-3.jpg", sampleId: "sample_162lhlc036uv8h3t", link: "https://www.nuscenes.org/" }
+	data[0] = { image: "images/examples/sample_008oumqrpn7heqkw.jpeg", sampleId: "sample_008oumqrpn7heqkw", link: "https://www.nuscenes.org/" }
+	data[1] = { image: "images/examples/sample_myhxagqplgdq85dt.jpeg", sampleId: "sample_myhxagqplgdq85dt", link: "https://www.nuscenes.org/" }
+	data[2] = { image: "images/examples/sample_33z7tb9d8nczpqiu.jpeg", sampleId: "sample_33z7tb9d8nczpqiu", link: "https://www.nuscenes.org/" }
+	data[3] = { image: "images/examples/sample_f0o9e2j6eqsvofhg.jpeg", sampleId: "sample_f0o9e2j6eqsvofhg", link: "https://www.nuscenes.org/" }
 	data[4] = { image: "images/nft/art-4.jpg", sampleId: "sample_162lhlc036uv8h3t", link: "https://www.nuscenes.org/" }
 	data[5] = { image: "images/nft/art-5.jpg", sampleId: "sample_162lhlc036uv8h3t", link: "https://www.nuscenes.org/" }
 	data[6] = { image: "images/nft/art-6.jpg", sampleId: "sample_162lhlc036uv8h3t", link: "https://www.nuscenes.org/" }
