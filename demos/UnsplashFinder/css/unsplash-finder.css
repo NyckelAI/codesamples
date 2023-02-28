@@ -133,10 +133,10 @@ main {
 }
 
 .main-panel {
-    background: #393377;
-    background: -moz-radial-gradient(center, ellipse cover, #393377 0, #262543 100%);
-    background: -webkit-radial-gradient(center, ellipse cover, #393377 0, #262543 100%);
-    background: radial-gradient(ellipse at 50% 20%, #393377 0, #262543 100%);
+    background: gray;
+    background: -moz-radial-gradient(center, ellipse cover, gray 0, white 100%);
+    background: -webkit-radial-gradient(center, ellipse cover, white 0, white 100%);
+    background: radial-gradient(ellipse at 50% 20%, gray 0, white 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#393377", endColorstr="#262543", GradientType=1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
@@ -248,14 +248,14 @@ main {
 }
 
 .tag-text p {
-    color: #00ffc5;
+    color: #111;
     font-size: 1.1rem;
     line-height: 1.4;
     font-weight: 700px;
 }
 
 .form-box {
-    background: #464278;
+    background: gray;
     border-radius: 10px;
     max-width: 80%;
     margin: 0 auto;
@@ -268,9 +268,9 @@ main {
 }
 
 .form-box input[type="text"] {
-    background: #302c5d;
+    background: #bbb;
     color: #fff;
-    border: 2px solid #7c78b5;
+    border: 2px solid gray;
     padding: 19px 14px 17px;
     box-sizing: border-box;
     width: 100%;
@@ -287,7 +287,7 @@ main {
     display: block;
     cursor: pointer;
     width: 100%;
-    background: #00ffc5;
+    background: gray;
     border: 0;
     border-radius: 8px;
     padding: 16px 14px 12px;
@@ -315,7 +315,7 @@ main {
     position: absolute;
     width: 100px;
     top: 72px;
-    background: #5e58a0;
+    background: #333;
     border-radius: 10px;
     padding: 8px 14px;
     color: #fff;
@@ -326,7 +326,7 @@ main {
 .form-box .current-search-preview-divet {
     width: 20px;
     height: 20px;
-    background: #5e58a0;
+    background: #333;
     position: absolute;
     transform: rotate(45deg);
     margin-top: -17px;
