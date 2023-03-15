@@ -61,15 +61,15 @@ function render_initial() {
 
 	var data = [];
 
-	data[0] = { image: "images/examples/sample_008oumqrpn7heqkw.jpeg", sampleId: "sample_008oumqrpn7heqkw", link: "https://www.nuscenes.org/" }
-	data[1] = { image: "images/examples/sample_myhxagqplgdq85dt.jpeg", sampleId: "sample_myhxagqplgdq85dt", link: "https://www.nuscenes.org/" }
-	data[2] = { image: "images/examples/sample_33z7tb9d8nczpqiu.jpeg", sampleId: "sample_33z7tb9d8nczpqiu", link: "https://www.nuscenes.org/" }
-	data[3] = { image: "images/examples/sample_f0o9e2j6eqsvofhg.jpeg", sampleId: "sample_f0o9e2j6eqsvofhg", link: "https://www.nuscenes.org/" }
-	data[4] = { image: "images/examples/sample_3lxm4vmbt08ocv0u.jpeg", sampleId: "sample_3lxm4vmbt08ocv0u", link: "https://www.nuscenes.org/" }
-	data[5] = { image: "images/examples/sample_02qniurzihdzxtbm.jpeg", sampleId: "sample_02qniurzihdzxtbm", link: "https://www.nuscenes.org/" }
-	data[6] = { image: "images/examples/sample_0a64eay9zuf6xd8x.jpeg", sampleId: "sample_0a64eay9zuf6xd8x", link: "https://www.nuscenes.org/" }
-	data[7] = { image: "images/examples/sample_4ue3wncczbpd45fp.jpeg", sampleId: "sample_4ue3wncczbpd45fp", link: "https://www.nuscenes.org/" }
-	data[8] = { image: "images/examples/sample_ei7qtwwwuue6dh8j.jpeg", sampleId: "sample_ei7qtwwwuue6dh8j", link: "https://www.nuscenes.org/" }
+	data[0] = { image: "images/examples/example1.jpeg", sampleId: "sample_rk4tw1az6wbgpjl4", externalId: "n015-2018-07-24-11-03-52+0800__CAM_FRONT_LEFT__1532401622854844.jpg" }
+	data[1] = { image: "images/examples/example2.jpeg", sampleId: "sample_d5p7dk0xzxsqopag", externalId: "n008-2018-08-01-15-16-36-0400__CAM_BACK__1533151675187558.jpg" }
+	data[2] = { image: "images/examples/example3.jpeg", sampleId: "sample_0xgrsr1uqbcnzpvy", externalId: "n015-2018-07-18-11-50-34+0800__CAM_FRONT__1531886158012465.jpg" }
+	data[3] = { image: "images/examples/example4.jpeg", sampleId: "sample_5016rnptlpxcw7oc", externalId: "n015-2018-07-27-11-36-48+0800__CAM_BACK__1532662892537525.jpg" }
+	data[4] = { image: "images/examples/example5.jpeg", sampleId: "sample_4o7jjjqh1pe8ugv4", externalId: "n015-2018-07-24-11-22-45+0800__CAM_BACK_RIGHT__1532402868177893.jpg" }
+	data[5] = { image: "images/examples/example6.jpeg", sampleId: "sample_baraultot3x7lug8", externalId: "n015-2018-08-01-16-32-59+0800__CAM_FRONT_RIGHT__1533112801670339.jpg" }
+	data[6] = { image: "images/examples/example7.jpeg", sampleId: "sample_4bfmvfk9wlpoclo1", externalId: "n008-2018-09-18-15-12-01-0400__CAM_FRONT_LEFT__1537298096754799.jpg" }
+	data[7] = { image: "images/examples/example8.jpeg", sampleId: "sample_ipfjtd61n6gf6qdn", externalId: "n008-2018-07-27-12-07-38-0400__CAM_FRONT__1532708060612404.jpg" }
+	data[8] = { image: "images/examples/example9.jpeg", sampleId: "sample_77g9qip11zf7fhpx", externalId: "n015-2018-07-24-11-13-19+0800__CAM_FRONT__1532402159612460.jpg" }
 
 	for (i = 0; i < data.length; i++) {
 		render_tile(i, data[i]);
@@ -110,7 +110,7 @@ function search_go(searchString, source = null, updateUrl = false, sampleId = nu
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(data)
 	};
-	fetch('https://www.nyckel.com/v0.9/functions/bs9v09uei941c21z/search?sampleCount=10&includeData=true', requestOptions)
+	fetch('https://www.nyckel.com/v0.9/functions/ianmziyi5mim4xoa/search?sampleCount=10&includeData=true', requestOptions)
 		.then(response => response.json())
 		.then(response => {
 
@@ -131,7 +131,8 @@ function search_go(searchString, source = null, updateUrl = false, sampleId = nu
 				render_tile(i, {
 					image: imageData[i]['data'],
 					link: 'https://www.nuscenes.org/',
-					sampleId: imageData[i]['sampleId']
+					sampleId: imageData[i]['sampleId'],
+					externalId: imageData[i]['externalId']
 				})
 			}
 
@@ -151,7 +152,8 @@ function clear_tiles() {
 function render_tile(id, imageData) {
 	document.getElementById('tile-image-' + String(id)).style.backgroundImage = "url(" + imageData['image'] + ")";
 	document.getElementById('tile-image-' + String(id)).dataset.id = imageData['sampleId'];
-	document.getElementById('tile-link-' + String(id)).href = imageData['link'];
+	document.getElementById('tile-text-' + String(id)).textContent = imageData['externalId'];
+
 }
 
 function image_click(e) {
