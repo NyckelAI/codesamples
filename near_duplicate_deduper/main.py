@@ -21,7 +21,7 @@ def main(client_id: str, client_secret: str, folder: str, max_nbr_file_to_dedupe
     runtime = time.time() - t0
 
     print("----")
-    print(f"Deduped {len(image_filelist)} in {runtime} seconds.")
+    print(f"Deduped {len(image_filelist)} images in {runtime} seconds.")
     print(f"Found {len(duplicate_clusters)} clusters of duplicates")
     for cluster in duplicate_clusters:
         print(f"Cluster1: {cluster}")
