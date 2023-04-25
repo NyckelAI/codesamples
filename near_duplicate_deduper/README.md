@@ -17,5 +17,5 @@ See <https://www.nyckel.com/docs/near-duplicate-removal> for more context.
 ## Run program
 
 ```python
-python -m main <nyckel_client_id> <nyckel_secret_id> <path_to_folder_with_image_files>
+python -m dedupe <nyckel_client_id> <nyckel_secret_id> <path_to_folder_with_image_files>
 ```
